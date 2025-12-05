@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 
 export default function Navigation({ username, onLogout }) {
   const navigate = useNavigate();
@@ -14,9 +14,9 @@ export default function Navigation({ username, onLogout }) {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark shadow-sm" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' }}>
       <div className="container-fluid px-4">
-        <a className="navbar-brand fw-bold fs-5" href="/">
+        <NavLink to="/" className="navbar-brand fw-bold fs-5">
           Expense Tracker
-        </a>
+        </NavLink>
 
         <button
           className="navbar-toggler"
@@ -30,20 +30,14 @@ export default function Navigation({ username, onLogout }) {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a
-                className={`nav-link ${isActive("/") ? "active" : ""}`}
-                href="/"
-              >
+              <NavLink to="/" className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}>
                 Dashboard
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item">
-              <a
-                className={`nav-link ${isActive("/expenses") ? "active" : ""}`}
-                href="/expenses"
-              >
+              <NavLink to="/expenses" className={({isActive}) => `nav-link ${isActive ? 'active' : ''}`}>
                 Expenses
-              </a>
+              </NavLink>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -59,6 +53,26 @@ export default function Navigation({ username, onLogout }) {
                 <li>
                   <button
                     className="dropdown-item"
+                    onClick={() => navigate('/profile')}
+                  >
+                    Profile
+                  </button>
+                  <li>
+                    <hr className="dropdown-divider" />
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item"
+                      onClick={() => navigate('/change-password')}
+                    >
+                      Change password
+                    </button>
+                  </li>
+                </li>
+                <li><hr className="dropdown-divider" /></li>
+                <li>
+                  <button
+                    className="dropdown-item text-danger"
                     onClick={handleLogout}
                   >
                     Logout

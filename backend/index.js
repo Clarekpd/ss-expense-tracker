@@ -154,6 +154,41 @@ app.get("/user", authenticateToken, async (req, res) => {
   }
 });
 
+// CHANGE PASSWORD
+app.put("/user/password", authenticateToken, async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    if (!oldPassword || !newPassword) {
+      return res.status(400).json({ error: "Old and new passwords are required" });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: "New password must be at least 6 characters" });
+    }
+
+    const usersCollection = db.collection(USERS_COLLECTION);
+    const user = await usersCollection.findOne({ _id: new ObjectId(req.userId) });
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const match = await bcrypt.compare(oldPassword, user.password);
+    if (!match) {
+      return res.status(401).json({ error: "Old password is incorrect" });
+    }
+
+    const hashed = await bcrypt.hash(newPassword, 10);
+    await usersCollection.updateOne({ _id: new ObjectId(req.userId) }, { $set: { password: hashed } });
+
+    res.json({ message: "Password updated" });
+  } catch (error) {
+    console.error("Change password error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // ======== EXPENSE ENDPOINTS ========
 
 // GET ALL EXPENSES FOR USER

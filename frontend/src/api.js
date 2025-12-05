@@ -22,6 +22,7 @@ export const authAPI = {
   signup: (username, password) => api.post("/signup", { username, password }),
   login: (username, password) => api.post("/login", { username, password }),
   getUser: () => api.get("/user"),
+  changePassword: (oldPassword, newPassword) => api.put("/user/password", { oldPassword, newPassword }),
 };
 
 export const expenseAPI = {

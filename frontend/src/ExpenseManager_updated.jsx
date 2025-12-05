@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { expenseAPI } from "./api";
 import "./ExpenseManager.css";
@@ -135,48 +135,44 @@ export default function ExpenseManager() {
 
   return (
     <div className="container mt-5 mb-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Expenses</h2>
-        <button
-          className={`btn ${showForm ? "btn-secondary" : "btn-primary"}`}
-          onClick={() => {
-            if (!checkAuth()) return;
-            showForm ? resetForm() : setShowForm(true);
-          }}
-        >
-          {showForm ? "Cancel" : "➕ Add Expense"}
-        </button>
+      <div className="expense-header">
+        <h2>Expense Manager</h2>
+        {!showForm && (
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              if (checkAuth()) {
+                setShowForm(true);
+              }
+            }}
+          >
+            ➕ Add Expense
+          </button>
+        )}
       </div>
 
-      {error && (
-        <div className="alert alert-danger alert-dismissible fade show">
-          {error}
-          <button
-            type="button"
-            className="btn-close"
-            onClick={() => setError("")}
-          ></button>
-        </div>
-      )}
+      {error && <div className="alert alert-danger" role="alert">{error}</div>}
 
       {showForm && (
-        <div className="card shadow-sm mb-4">
-          <div className="card-header bg-light">
-            <h5 className="mb-0">{editingId ? "Edit Expense" : "Add New Expense"}</h5>
+        <div className="card mb-4">
+          <div className="card-header">
+            <h5 className="mb-0">
+              {editingId ? "Edit Expense" : "Add New Expense"}
+            </h5>
           </div>
           <div className="card-body">
             <form onSubmit={handleSubmit}>
               <div className="row mb-3">
                 <div className="col-md-6">
                   <label htmlFor="amount" className="form-label">
-                    Amount ($)
+                    Amount
                   </label>
                   <input
                     id="amount"
                     type="number"
                     step="0.01"
                     className="form-control"
-                    placeholder="0.00"
+                    placeholder="Enter amount"
                     value={formData.amount}
                     onChange={(e) =>
                       setFormData({ ...formData, amount: e.target.value })
@@ -188,17 +184,24 @@ export default function ExpenseManager() {
                   <label htmlFor="category" className="form-label">
                     Category
                   </label>
-                  <input
+                  <select
                     id="category"
-                    type="text"
-                    className="form-control"
-                    placeholder="e.g. Food, Gas, Bills"
+                    className="form-select"
                     value={formData.category}
                     onChange={(e) =>
                       setFormData({ ...formData, category: e.target.value })
                     }
                     required
-                  />
+                  >
+                    <option value="">Select a category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Utilities">Utilities</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </div>
               </div>
 
@@ -285,25 +288,24 @@ export default function ExpenseManager() {
                         <span className="badge bg-info">{expense.category}</span>
                       </td>
                       <td className="text-end fw-bold">
-                        
+                        ${expense.amount.toFixed(2)}
                       </td>
                       <td>
                         <small className="text-muted">{expense.notes || "-"}</small>
                       </td>
                       <td className="text-center">
                         <button
-                          className="btn-edit me-1"
-                          onClick={() => { if (checkAuth()) handleEdit(expense); }}
+                          className="btn btn-sm btn-warning me-1"
+                          onClick={() => handleEdit(expense)}
                           title="Edit"
-                          aria-label={`Edit expense ${expense._id}`}
+                          style={{ color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', padding: '0.35rem 0.6rem' }}
                         >
                           ✏️
                         </button>
                         <button
                           className="btn btn-sm btn-danger"
-                          onClick={() => { if (checkAuth()) handleDelete(expense._id); }}
+                          onClick={() => handleDelete(expense._id)}
                           title="Delete"
-                          aria-label={`Delete expense ${expense._id}`}
                         >
                           🗑️
                         </button>
@@ -319,4 +321,3 @@ export default function ExpenseManager() {
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { authAPI } from "./api";
 import "./Auth.css";
 
@@ -98,9 +98,9 @@ export default function Login({ onLogin }) {
 
             <p className="text-center text-muted">
               Don't have an account?{" "}
-              <a href="/register" className="text-decoration-none fw-bold">
+              <Link to="/register" className="text-decoration-none fw-bold">
                 Register here
-              </a>
+              </Link>
             </p>
           </div>
         </div>

@@ -1,30 +1,49 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { reportAPI, expenseAPI } from "./api";
 import ExpensesChart from "./components/ExpensesChart";
 import "./Dashboard.css";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [summary, setSummary] = useState(null);
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const checkAuth = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (checkAuth()) {
+      fetchData();
+    }
+  }, [navigate]);
 
   const fetchData = async () => {
+    if (!checkAuth()) return;
+    
     try {
       const response = await reportAPI.getSummary();
       setSummary(response.data);
       
       // Fetch all expenses for the chart
-      const expensesResponse = await expenseAPI.getAll();
+      const expensesResponse = await expenseAPI.getExpenses();
       setExpenses(expensesResponse.data);
       
       setError("");
     } catch (err) {
-      setError("Failed to load dashboard data");
+      if (err.response?.status === 401) {
+        navigate("/login");
+      } else {
+        setError("Failed to load dashboard data");
+      }
       console.error(err);
     } finally {
       setLoading(false);
