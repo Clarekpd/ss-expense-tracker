@@ -46,10 +46,11 @@ export default function Navigation({ username, onLogout }) {
                 id="userDropdown"
                 role="button"
                 data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
                 👤 {username}
               </a>
-              <ul className="dropdown-menu dropdown-menu-end">
+              <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 <li>
                   <button
                     className="dropdown-item"
@@ -57,17 +58,14 @@ export default function Navigation({ username, onLogout }) {
                   >
                     Profile
                   </button>
-                  <li>
-                    <hr className="dropdown-divider" />
-                  </li>
-                  <li>
-                    <button
-                      className="dropdown-item"
-                      onClick={() => navigate('/change-password')}
-                    >
-                      Change password
-                    </button>
-                  </li>
+                </li>
+                <li>
+                  <button
+                    className="dropdown-item"
+                    onClick={() => navigate('/change-password')}
+                  >
+                    Change password
+                  </button>
                 </li>
                 <li><hr className="dropdown-divider" /></li>
                 <li>
