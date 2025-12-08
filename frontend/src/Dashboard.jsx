@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { reportAPI, expenseAPI } from "./api";
 import ExpensesChart from "./components/ExpensesChart";
+
 import "./Dashboard.css";
+import ImmediateExpensesChart from "./components/ImmediateExpensesChart";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -151,7 +153,11 @@ export default function Dashboard() {
         </div>
       )}
 
-      <ExpensesChart expenses={expenses} />
+      <div className="charts-grid">
+        <ExpensesChart expenses={expenses} />
+        <ImmediateExpensesChart expenses={expenses} period="week" />
+      </div>
+
     </div>
   );
 }

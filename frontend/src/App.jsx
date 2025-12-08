@@ -10,6 +10,7 @@ import Dashboard from "./Dashboard";
 import ExpenseManager from "./ExpenseManager";
 import ChangePassword from "./ChangePassword";
 import Profile from "./Profile";
+import Footer from "./components/Footer";
 
 function App() {
   const [token, setToken] = useState(() => localStorage.getItem("token"));
@@ -68,14 +69,17 @@ function App() {
       {/* Global guard: if any button is clicked while not logged in, send user to /login */}
       <AuthClickGuard isLoggedIn={isLoggedIn} />
       {isLoggedIn && <Navigation username={username} onLogout={handleLogout} />}
-      <Routes>
-        <Route path="/login" element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/" />} />
-        <Route path="/register" element={!isLoggedIn ? <Register onLogin={handleLogin} /> : <Navigate to="/" />} />
-        <Route path="/" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/expenses" element={isLoggedIn ? <ExpenseManager /> : <Navigate to="/login" />} />
-        <Route path="/change-password" element={isLoggedIn ? <ChangePassword /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/login" element={!isLoggedIn ? <Login onLogin={handleLogin} /> : <Navigate to="/" />} />
+          <Route path="/register" element={!isLoggedIn ? <Register onLogin={handleLogin} /> : <Navigate to="/" />} />
+          <Route path="/" element={isLoggedIn ? <Dashboard /> : <Navigate to="/login" />} />
+          <Route path="/expenses" element={isLoggedIn ? <ExpenseManager /> : <Navigate to="/login" />} />
+          <Route path="/change-password" element={isLoggedIn ? <ChangePassword /> : <Navigate to="/login" />} />
+          <Route path="/profile" element={isLoggedIn ? <Profile /> : <Navigate to="/login" />} />
+        </Routes>
+      </main>
+      <Footer />
     </Router>
   );
 }

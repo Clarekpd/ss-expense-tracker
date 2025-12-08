@@ -108,3 +108,24 @@
   font-size: 1rem;
   margin: 0;
 }
+
+/* Charts layout */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 992px) { /* Bootstrap's lg breakpoint */
+  .charts-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+  }
+  .charts-grid .card {
+    height: 100%;
+  }
+  .charts-grid .card-body {
+    height: 100%;
+  }
+}
