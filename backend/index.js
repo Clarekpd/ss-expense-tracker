@@ -29,7 +29,7 @@ async function initDB() {
 
 // JWT Configuration
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key-change-me";
-const TOKEN_EXPIRY = "7d";
+const TOKEN_EXPIRY = process.env.ACCESS_TOKEN_EXPIRE_MINUTES || "30m";
 
 // Middleware
 app.use(cors());
@@ -147,6 +147,8 @@ app.get("/user", authenticateToken, async (req, res) => {
     res.json({
       userId: user._id.toString(),
       username: user.username,
+      // Normalize createdAt to ISO 8601 string for frontend consumption
+      createdAt: user.createdAt ? user.createdAt.toISOString() : null,
     });
   } catch (error) {
     console.error("Get user error:", error);

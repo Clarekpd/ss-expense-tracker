@@ -33,6 +33,15 @@ export default function Profile() {
 
   if (loading) return <div className="container mt-5">Loading profile…</div>;
 
+  // Compute days since account creation (whole days, always round up)
+  let createdAtDate = null;
+  let daysSince = null;
+  if (user && user.createdAt) {
+    createdAtDate = new Date(user.createdAt);
+    const diffMs = Date.now() - createdAtDate.getTime();
+    daysSince = Math.max(1, Math.ceil(diffMs / (1000 * 60 * 60 * 24)));
+  }
+
   return (
     <div className="container mt-5 mb-5">
       <div className="card mx-auto" style={{ maxWidth: 640 }}>
@@ -52,6 +61,15 @@ export default function Profile() {
               <div className="mb-3">
                 <strong>User ID:</strong>
                 <div className="mt-1 text-muted small">{user.userId}</div>
+              </div>
+
+              <div className="mb-3">
+                <strong>User for:</strong>
+                <div className="mt-1 text-muted small">
+                  {createdAtDate
+                    ? `${daysSince} day${daysSince === 1 ? "" : "s"} (since ${createdAtDate.toISOString().split("T")[0]})`
+                    : "N/A"}
+                </div>
               </div>
 
               <div className="d-flex gap-2">
