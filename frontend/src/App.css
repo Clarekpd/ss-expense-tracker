@@ -317,4 +317,10 @@ main {
   color: #a78bfa;
   font-size: 0.9rem;
 }
-
+.footer-link {
+  color: #a78bfa;
+  text-decoration: none;
+}
+.footer-link:hover {
+  text-decoration: underline;
+}

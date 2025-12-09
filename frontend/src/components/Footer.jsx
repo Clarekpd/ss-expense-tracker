@@ -7,8 +7,10 @@ function Footer() {
       <small>Copyright&copy; 2025 Uncrustables</small>
       </div>
       <div className="footer-links">
-        <a href="https://github.com/Clarekpd/ss-expense-tracker">Visit our GitHub!</a>
-        <a href="https://uwplatt.edu/">Our University</a>
+        <a href="https://github.com/Clarekpd/ss-expense-tracker"
+           className="footer-link">Visit our GitHub!</a>
+        <a href="https://uwplatt.edu/"
+           className="footer-link">Our University</a>
       </div>
     </footer>
   );
