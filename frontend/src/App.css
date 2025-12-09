@@ -314,7 +314,6 @@ main {
 .footer-links {
   display: inline-flex;
   gap: 1rem;
-  color: #a78bfa;
   font-size: 0.9rem;
 }
 .footer-link {
