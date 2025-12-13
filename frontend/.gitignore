@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 *.local
+.sonar_lock*
+report-task.txt*
 
 # Editor directories and files
 .vscode/*
